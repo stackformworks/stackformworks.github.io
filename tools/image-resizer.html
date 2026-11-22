@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Resize, crop, or fit a JPG, PNG, or WebP to the dimensions you need.">
+<meta name="theme-color" content="#10291f">
+<title>Free Image Resizer Online | ToolVibe</title>
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<script src="../js/theme.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<script defer src="../js/main.js"></script>
+<script defer src="../js/tool-extensions.js"></script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="icon-bolt" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 10-12h-7l1-8Z"/></symbol><symbol id="icon-qr" viewBox="0 0 24 24"><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="3" width="6" height="6" rx="1"/><rect x="3" y="15" width="6" height="6" rx="1"/><path d="M15 15h3v3h3m-6 3v-2m6-6v2m-8-4v2"/></symbol><symbol id="icon-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9" r="1.5"/><path d="m3 17 5-4 4 4 4-5 5 5"/></symbol><symbol id="icon-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4.5"/><path d="m11.2 11.8 8-8 2 2-2 2m-2 0 2 2-2 2"/></symbol><symbol id="icon-text" viewBox="0 0 24 24"><path d="M4 7V4h16v3M12 4v16m-4 0h8"/></symbol><symbol id="icon-video" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m10 9 5 3-5 3Z"/></symbol><symbol id="icon-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></symbol><symbol id="icon-moon" viewBox="0 0 24 24"><path d="M21 13A9 9 0 0 1 11 3a9 9 0 1 0 10 10Z"/></symbol><symbol id="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19m0-14-1.5 1.5m-11 11L5 19"/></symbol><symbol id="icon-shield" viewBox="0 0 24 24"><path d="M12 22s7-3.5 7-10V6l-7-3-7 3v6c0 6.5 7 10 7 10Z"/><path d="m9 12 2 2 4-4"/></symbol><symbol id="icon-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol><symbol id="icon-chevron" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol></svg>
+<a class="skip" href="#main">Skip to content</a>
+<header class="header"><nav class="nav shell" aria-label="Main navigation">
+  <a class="brand" href="../index.html"><span class="brand-symbol"><svg class="icon" aria-hidden="true"><use href="#icon-bolt"/></svg></span>ToolVibe</a>
+  <div class="nav-actions"><a href="../index.html#tools">All tools</a><a href="../pages/about.html">About</a><button class="theme" type="button" data-theme-button aria-label="Change color theme"><svg class="icon" aria-hidden="true"><use href="#icon-moon"/></svg></button></div>
+</nav></header>
+<main id="main" class="tool-main shell" data-tool-extension="image-resizer">
+<nav class="crumb" aria-label="Breadcrumb"><a href="../index.html#tools">All tools</a><svg class="icon" aria-hidden="true"><use href="#icon-chevron"/></svg><span>Image Tools</span></nav>
+<div class="tool-title"><span class="tile image"><svg class="icon" aria-hidden="true"><use href="#icon-image"/></svg></span><h1 class="title">Image Resizer</h1></div>
+<p class="intro">Resize, crop, or fit a JPG, PNG, or WebP to the dimensions you need.</p>
+<div class="tool-layout">
+<section class="widget">
+<h2>Set image dimensions</h2>
+<form id="resize-form" class="stack">
+  <label class="field">Image file
+    <input id="resize-file" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" required>
+    <small id="resize-source">JPG, PNG, or WebP up to 40 MB.</small>
+  </label>
+  <label class="field">Size preset
+    <select id="resize-preset">
+      <option value="">Custom dimensions</option>
+      <option value="1080x1080">Square post (1080 × 1080)</option>
+      <option value="1080x1350">Portrait post (1080 × 1350)</option>
+      <option value="1080x1920">Vertical story (1080 × 1920)</option>
+      <option value="1920x1080">Landscape (1920 × 1080)</option>
+    </select>
+  </label>
+  <div class="split">
+    <label class="field">Width (px)<input id="resize-width" type="number" min="1" max="8192" step="1" required></label>
+    <label class="field">Height (px)<input id="resize-height" type="number" min="1" max="8192" step="1" required></label>
+  </div>
+  <div class="split">
+    <label class="field">Resize mode
+      <select id="resize-mode">
+        <option value="fit">Fit within bounds</option>
+        <option value="crop">Center crop to size</option>
+        <option value="stretch">Stretch to size</option>
+      </select>
+      <small id="resize-mode-hint">Keeps proportions. The output may be smaller than the requested size on one side.</small>
+    </label>
+    <label class="field">Output format
+      <select id="resize-type">
+        <option value="image/png">PNG</option>
+        <option value="image/jpeg">JPG</option>
+        <option value="image/webp">WebP</option>
+      </select>
+    </label>
+  </div>
+  <div class="actions">
+    <button class="btn" id="resize-submit" type="submit" disabled>Resize image</button>
+    <button class="btn secondary" id="resize-download" type="button" disabled>Download image</button>
+  </div>
+  <p class="status" id="extension-status" role="status"></p>
+  <div class="result image-result stack" id="resize-result" hidden>
+    <p class="hint" id="resize-stats"></p>
+    <img id="resize-preview" alt="Resized image preview">
+  </div>
+</form>
+</section>
+<aside class="aside"><h2>Using this tool</h2><p>The image stays in your browser. The resized result is a new file and your original stays intact.</p><nav aria-label="Other tools"><a href="image-compressor.html">Image Compressor</a><a href="qr-generator.html">QR Code Generator</a></nav></aside>
+</div>
+<article class="article">
+<h2>How to resize an image</h2>
+<ol>
+  <li>Choose a JPG, PNG, or WebP image. ToolVibe shows its width and height after opening it.</li>
+  <li>Choose a preset or enter dimensions in pixels. For example, enter 1080 × 1080 for a square post.</li>
+  <li>Pick a resize mode and file format, then select Resize image. Check the preview and the actual output dimensions before downloading.</li>
+</ol>
+<h2>Pick the right resize mode</h2>
+<p><strong>Fit within bounds</strong> keeps the whole image and fits it inside your requested width and height. If the shapes differ, one output dimension will be smaller. <strong>Center crop</strong> fills the exact size by trimming the edges around the center. <strong>Stretch</strong> also gives the exact size, but can change how people or objects look.</p>
+<h2>Frequently asked questions</h2>
+<details><summary>How do I keep transparency?</summary><p>Choose PNG or WebP with a transparent source. JPG fills transparent areas with white.</p></details>
+<details><summary>Can I improve image quality by enlarging it?</summary><p>Enlarging an image gives it more pixels. Existing details may look softer at the new size.</p></details>
+<details><summary>Where is the image processed?</summary><p>Your browser opens, resizes, and exports it. The image is kept on your device. The result is a still image, so animated WebP files export as a single frame.</p></details>
+</article>
+</main>
+<footer class="footer"><div class="shell footer-inner">
+<a class="brand" href="../index.html"><span class="brand-symbol"><svg class="icon" aria-hidden="true"><use href="#icon-bolt"/></svg></span>ToolVibe</a>
+<nav class="footer-nav" aria-label="Site information"><a href="../pages/about.html">About</a><a href="../pages/contact.html">Contact</a><a href="../pages/privacy-policy.html">Privacy Policy</a><a href="../pages/terms.html">Terms &amp; Conditions</a></nav>
+</div></footer>
+</body>
+</html>

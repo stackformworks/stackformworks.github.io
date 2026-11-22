@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Turn spreadsheet values or order numbers into a copyable SQL IN list.">
+<meta name="theme-color" content="#10291f">
+<title>Free SQL IN List Generator Online | ToolVibe</title>
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<script src="../js/theme.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<script defer src="../js/main.js"></script>
+<script defer src="../js/tool-extensions.js"></script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="icon-bolt" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 10-12h-7l1-8Z"/></symbol><symbol id="icon-qr" viewBox="0 0 24 24"><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="3" width="6" height="6" rx="1"/><rect x="3" y="15" width="6" height="6" rx="1"/><path d="M15 15h3v3h3m-6 3v-2m6-6v2m-8-4v2"/></symbol><symbol id="icon-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9" r="1.5"/><path d="m3 17 5-4 4 4 4-5 5 5"/></symbol><symbol id="icon-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4.5"/><path d="m11.2 11.8 8-8 2 2-2 2m-2 0 2 2-2 2"/></symbol><symbol id="icon-text" viewBox="0 0 24 24"><path d="M4 7V4h16v3M12 4v16m-4 0h8"/></symbol><symbol id="icon-video" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m10 9 5 3-5 3Z"/></symbol><symbol id="icon-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></symbol><symbol id="icon-moon" viewBox="0 0 24 24"><path d="M21 13A9 9 0 0 1 11 3a9 9 0 1 0 10 10Z"/></symbol><symbol id="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19m0-14-1.5 1.5m-11 11L5 19"/></symbol><symbol id="icon-shield" viewBox="0 0 24 24"><path d="M12 22s7-3.5 7-10V6l-7-3-7 3v6c0 6.5 7 10 7 10Z"/><path d="m9 12 2 2 4-4"/></symbol><symbol id="icon-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol><symbol id="icon-chevron" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol></svg>
+<a class="skip" href="#main">Skip to content</a>
+<header class="header"><nav class="nav shell" aria-label="Main navigation">
+  <a class="brand" href="../index.html"><span class="brand-symbol"><svg class="icon" aria-hidden="true"><use href="#icon-bolt"/></svg></span>ToolVibe</a>
+  <div class="nav-actions"><a href="../index.html#tools">All tools</a><a href="../pages/about.html">About</a><button class="theme" type="button" data-theme-button aria-label="Change color theme"><svg class="icon" aria-hidden="true"><use href="#icon-moon"/></svg></button></div>
+</nav></header>
+<main id="main" class="tool-main shell" data-tool-extension="sql-in-list-generator">
+<nav class="crumb" aria-label="Breadcrumb"><a href="../index.html#tools">All tools</a><svg class="icon" aria-hidden="true"><use href="#icon-chevron"/></svg><span>Developer Tools</span></nav>
+<div class="tool-title"><span class="tile password"><svg class="icon" aria-hidden="true"><use href="#icon-grid"/></svg></span><h1 class="title">SQL IN List Generator</h1></div>
+<p class="intro">Turn spreadsheet values or order numbers into a copyable SQL IN list.</p>
+<div class="tool-layout">
+<section class="widget">
+<h2>Format values for SQL</h2>
+<form class="stack" id="sql-list-form">
+  <label class="field">Values
+    <textarea id="sql-list-input" rows="7" class="word-input" spellcheck="false" placeholder="FS412009&#10;FS412011&#10;FS412012" required></textarea>
+    <small>Paste one column from Excel, or choose a delimiter for your list.</small>
+  </label>
+  <div class="split">
+    <label class="field">Input separator
+      <select id="sql-list-separator">
+        <option value="lines">Lines and tabs</option>
+        <option value="commas">Commas, lines, and tabs</option>
+      </select>
+    </label>
+    <label class="field">Value type
+      <select id="sql-list-type">
+        <option value="standard">Text (standard SQL)</option>
+        <option value="mysql">Text (MySQL with backslash escapes)</option>
+        <option value="number">Numbers (unquoted)</option>
+      </select>
+    </label>
+  </div>
+  <div class="checks">
+    <label class="check"><input type="checkbox" id="sql-list-dedupe" checked> Remove duplicates</label>
+    <label class="check"><input type="checkbox" id="sql-list-multiline"> One value per output line</label>
+  </div>
+  <div class="actions">
+    <button class="btn" type="submit">Generate SQL list</button>
+    <button class="btn secondary" id="sql-list-copy" type="button" disabled>Copy SQL</button>
+  </div>
+  <label class="field">SQL output<textarea id="sql-list-output" rows="5" spellcheck="false" readonly></textarea></label>
+  <p class="status" id="extension-status" role="status"></p>
+</form>
+</section>
+<aside class="aside"><h2>Using this tool</h2><p>Paste a list to format it locally. This tool generates SQL text and has no connection to your database.</p><nav aria-label="Other tools"><a href="text-case-converter.html">Text Case Converter</a><a href="word-counter.html">Word Counter</a></nav></aside>
+</div>
+<article class="article">
+<h2>How to generate an SQL IN list</h2>
+<ol>
+  <li>Copy a single Excel column or paste a list of values. Keep Lines and tabs selected when a value contains a comma.</li>
+  <li>Use a text format for order numbers, tracking IDs, or values with leading zeros. Choose Numbers only when the database column stores numeric values.</li>
+  <li>Select Generate SQL list. Copy the output and place it after the column name in your WHERE clause, such as <code>WHERE OrderNo IN ('FS412009', 'FS412011')</code>.</li>
+</ol>
+<h2>Quotes and duplicates</h2>
+<p>The tool trims surrounding whitespace and skips blank entries. Duplicates are compared as typed after trimming, and their first occurrence stays in place. Text values are wrapped in single quotes, and embedded apostrophes are doubled. Use the MySQL text option when the server treats backslashes as escapes. Use standard SQL text mode if MySQL runs with <code>NO_BACKSLASH_ESCAPES</code>.</p>
+<h2>Frequently asked questions</h2>
+<details><summary>Does it read quoted CSV?</summary><p>The comma option treats every comma as a separator. If a value contains a comma, paste that value on its own line and use Lines and tabs.</p></details>
+<details><summary>Can this tool run my query?</summary><p>The tool only formats a list for copying. In application code, bind user-supplied values with prepared statements. Check generated lists before using them in your own query.</p></details>
+</article>
+</main>
+<footer class="footer"><div class="shell footer-inner">
+<a class="brand" href="../index.html"><span class="brand-symbol"><svg class="icon" aria-hidden="true"><use href="#icon-bolt"/></svg></span>ToolVibe</a>
+<nav class="footer-nav" aria-label="Site information"><a href="../pages/about.html">About</a><a href="../pages/contact.html">Contact</a><a href="../pages/privacy-policy.html">Privacy Policy</a><a href="../pages/terms.html">Terms &amp; Conditions</a></nav>
+</div></footer>
+</body>
+</html>
