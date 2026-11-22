@@ -12,3 +12,61 @@
 @media(max-width:660px){.tool-layout{grid-template-columns:1fr}.section-head{align-items:start;flex-direction:column;gap:5px}.hero-art{opacity:.22;width:60%;right:-14%;mask-image:none}.hero-copy{max-width:100%}.hero{padding:29px 21px;min-height:290px}.header .nav{height:62px}.nav-actions{gap:12px}.shell{width:calc(100% - 28px)}.hero-wrap{margin-top:14px}.directory{padding-top:27px}.footer-inner{align-items:start;flex-direction:column}.widget,.article,.aside{padding:16px}.metrics{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:440px){.grid,.thumbs{grid-template-columns:1fr}.nav-actions>a:last-of-type{display:none}.card{padding:14px}.filter{padding:7px 10px}.search kbd{display:none}.split{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;scroll-behavior:auto!important}}
+
+/* ToolVibe loading animation */
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-page-loading] body::before,
+  :root[data-page-loading] body::after {
+    content: "";
+    position: fixed;
+    pointer-events: none;
+  }
+
+  :root[data-page-loading] body::before {
+    z-index: 100;
+    inset: 0;
+    background: radial-gradient(
+      ellipse at center,
+      #224f39 0%,
+      #10291f 53%,
+      #0a1a13 100%
+    );
+  }
+
+  :root[data-page-loading] body::after {
+    z-index: 101;
+    inset: 50% auto auto 50%;
+    width: clamp(4.5rem, 14vw, 5.5rem);
+    aspect-ratio: 1;
+    border: 1px solid #b9f47d80;
+    border-radius: 26%;
+    background: #163e2d url("../assets/favicon.svg") center / 64% no-repeat;
+    box-shadow: 0 0 0 0.5rem #b9f47d14, 0 0 2.4rem #b9f47d33;
+    transform: translate(-50%, -50%);
+    animation: toolvibe-loader-pulse 1000ms ease-in-out infinite alternate;
+  }
+
+  :root[data-page-loading="ready"] body::before,
+  :root[data-page-loading="ready"] body::after {
+    animation: toolvibe-loader-exit 320ms ease-out both;
+  }
+
+  :root[data-page-loading] body:has(:focus-visible)::before,
+  :root[data-page-loading] body:has(:focus-visible)::after {
+    visibility: hidden;
+  }
+
+  @keyframes toolvibe-loader-pulse {
+    from {
+      box-shadow: 0 0 0 0.35rem #b9f47d24, 0 0 1.6rem #b9f47d22;
+    }
+    to {
+      box-shadow: 0 0 0 0.8rem #b9f47d0d, 0 0 2.8rem #b9f47d55;
+    }
+  }
+
+  @keyframes toolvibe-loader-exit {
+    from { opacity: 1; }
+    to { opacity: 0; visibility: hidden; }
+  }
+}
