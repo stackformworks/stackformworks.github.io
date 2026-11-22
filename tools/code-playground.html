@@ -3,9 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Run HTML, CSS, and JavaScript in a browser playground with desktop and mobile previews, a JavaScript console, and HTML download.">
+<meta name="description" content="Test HTML, CSS, and JavaScript in your browser. Switch between desktop and mobile previews, read console logs, and download a standalone HTML file.">
 <meta name="theme-color" content="#10291f">
-<title>HTML, CSS &amp; JavaScript Code Playground | ToolVibe</title>
+<title>HTML, CSS &amp; JavaScript Playground with Browser Preview | ToolVibe</title>
+<link rel="canonical" href="https://stackformworks.github.io/tools/code-playground.html">
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <script src="../js/theme.js"></script>
 <link rel="stylesheet" href="../css/style.css">
@@ -76,6 +77,9 @@
     <li>Select Run code. Use Mobile to check the layout in a viewport up to 390 pixels wide, and check the console for logs and errors.</li>
     <li>Choose Download HTML to save your current edits as a single file.</li>
   </ol>
+  <h2>Example: test a button before embedding it</h2>
+  <p>Paste <code>&lt;button id="demo"&gt;Click me&lt;/button&gt;</code> in the HTML tab. In the JavaScript tab, replace the sample code with <code>document.querySelector('#demo').onclick = () =&gt; console.log('Clicked');</code>. Select <strong>Run code</strong> and click the button in the preview to check the console output.</p>
+  <p>Switch to <strong>Mobile</strong> to check whether the button fits a narrow viewport. Use <strong>Download HTML</strong> to save the HTML, CSS, and JavaScript together.</p>
   <h2>Previewing an embed</h2>
   <p>Paste your embed HTML and check the layout before adding it to a site builder. The preview blocks external scripts, stylesheets, images, and embedded frames. Use inline CSS, inline JavaScript, or data URL images for a standalone test. The destination site can apply its own rules to embedded code.</p>
 </article>

@@ -3,9 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Turn spreadsheet values or order numbers into a copyable SQL IN list.">
+<meta name="description" content="Turn an Excel column or pasted list into a SQL IN clause. Remove duplicates, keep leading zeros, and safely quote apostrophes for the selected SQL mode.">
 <meta name="theme-color" content="#10291f">
-<title>Free SQL IN List Generator Online | ToolVibe</title>
+<title>SQL IN List Generator for Excel &amp; Order Numbers | ToolVibe</title>
+<link rel="canonical" href="https://stackformworks.github.io/tools/sql-in-list-generator.html">
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <script src="../js/theme.js"></script>
 <link rel="stylesheet" href="../css/style.css">
@@ -67,6 +68,9 @@
   <li>Use a text format for order numbers, tracking IDs, or values with leading zeros. Choose Numbers only when the database column stores numeric values.</li>
   <li>Select Generate SQL list. Copy the output and place it after the column name in your WHERE clause, such as <code>WHERE OrderNo IN ('FS412009', 'FS412011')</code>.</li>
 </ol>
+<h2>Example: paste order numbers from Excel</h2>
+<p>If your column contains <code>FS412009</code>, <code>FS412011</code>, and <code>FS412009</code> again, leave <strong>Remove duplicates</strong> enabled. The tool produces <code>IN ('FS412009', 'FS412011')</code>. Add it after your column name, for example <code>WHERE OrderNo IN ('FS412009', 'FS412011')</code>.</p>
+<p>Keep <strong>Text</strong> selected for codes like <code>000421</code> so the leading zeros stay in the result. If your database column is numeric, choose <strong>Numbers</strong> to generate a list such as <code>IN (421, 422)</code>.</p>
 <h2>Quotes and duplicates</h2>
 <p>The tool trims surrounding whitespace and skips blank entries. Duplicates are compared as typed after trimming, and their first occurrence stays in place. Text values are wrapped in single quotes, and embedded apostrophes are doubled. Use the MySQL text option when the server treats backslashes as escapes. Use standard SQL text mode if MySQL runs with <code>NO_BACKSLASH_ESCAPES</code>.</p>
 <h2>Frequently asked questions</h2>
