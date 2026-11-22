@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Reduce the size of JPG, PNG, and WebP files in your browser.">
+<meta name="theme-color" content="#10291f">
+<title>Free Image Compressor Online | ToolVibe</title>
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<script src="../js/theme.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Image Compressor", "description": "Reduce the size of JPG, PNG, and WebP files in your browser.", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
+<script defer src="../js/main.js"></script>
+<script defer src="../js/tools.js"></script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="icon-bolt" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 10-12h-7l1-8Z"/></symbol><symbol id="icon-qr" viewBox="0 0 24 24"><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="3" width="6" height="6" rx="1"/><rect x="3" y="15" width="6" height="6" rx="1"/><path d="M15 15h3v3h3m-6 3v-2m6-6v2m-8-4v2"/></symbol><symbol id="icon-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9" r="1.5"/><path d="m3 17 5-4 4 4 4-5 5 5"/></symbol><symbol id="icon-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4.5"/><path d="m11.2 11.8 8-8 2 2-2 2m-2 0 2 2-2 2"/></symbol><symbol id="icon-text" viewBox="0 0 24 24"><path d="M4 7V4h16v3M12 4v16m-4 0h8"/></symbol><symbol id="icon-video" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m10 9 5 3-5 3Z"/></symbol><symbol id="icon-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></symbol><symbol id="icon-moon" viewBox="0 0 24 24"><path d="M21 13A9 9 0 0 1 11 3a9 9 0 1 0 10 10Z"/></symbol><symbol id="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19m0-14-1.5 1.5m-11 11L5 19"/></symbol><symbol id="icon-shield" viewBox="0 0 24 24"><path d="M12 22s7-3.5 7-10V6l-7-3-7 3v6c0 6.5 7 10 7 10Z"/><path d="m9 12 2 2 4-4"/></symbol><symbol id="icon-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol><symbol id="icon-chevron" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol></svg>
+<a class="skip" href="#main">Skip to content</a>
+<header class="header"><nav class="nav shell" aria-label="Main navigation">
+  <a class="brand" href="../index.html"><span class="brand-symbol"><svg class="icon" aria-hidden="true"><use href="#icon-bolt"/></svg></span>ToolVibe</a>
+  <div class="nav-actions"><a href="../index.html#tools">All tools</a><a href="../pages/about.html">About</a><button class="theme" type="button" data-theme-button aria-label="Change color theme"><svg class="icon" aria-hidden="true"><use href="#icon-moon"/></svg></button></div>
+</nav></header>
+<main id="main" class="tool-main shell" data-tool="image-compressor">
+<nav class="crumb" aria-label="Breadcrumb"><a href="../index.html#tools">All tools</a><svg class="icon" aria-hidden="true"><use href="#icon-chevron"/></svg><span>Image Tools</span></nav>
+<div class="tool-title"><span class="tile image"><svg class="icon" aria-hidden="true"><use href="#icon-image"/></svg></span><h1 class="title">Image Compressor</h1></div>
+<p class="intro">Reduce the size of JPG, PNG, and WebP files in your browser.</p>
+<div class="tool-layout"><section class="widget"><h2>Compress an image</h2>
+<form id="image-form" class="stack">
+<label class="field">Image file<input id="image-file" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" required><small>JPG, PNG, or WebP. Up to 40 MB.</small></label>
+<div class="split"><label class="field">Output format<select id="image-type"><option value="image/webp">WebP</option><option value="image/jpeg">JPG</option><option value="image/png">PNG</option></select></label>
+<label class="field">Maximum width (optional)<input id="image-width" type="number" min="1" max="8192" placeholder="Keep original width"></label></div>
+<label class="field">Quality <output for="image-quality" id="image-quality-value">75%</output><input id="image-quality" type="range" min="10" max="100" value="75"><small id="image-quality-hint">Lower quality usually creates a smaller file.</small></label>
+<div class="actions"><button type="submit" class="btn" id="image-submit">Compress image</button><button type="button" class="btn secondary" id="image-download" disabled>Download image</button></div>
+<p class="status" id="status" role="status"></p>
+<div id="image-result" class="result image-result stack" hidden><div id="image-stats" class="hint"></div><img id="image-preview" alt="Compressed image preview"></div>
+</form></section>
+<aside class="aside"><h2>Using this tool</h2><p>Your image stays on your device. Compare the preview and file size before saving.</p><nav aria-label="Other tools"><a href="qr-generator.html">QR Code Generator</a><a href="password-generator.html">Password Generator</a><a href="word-counter.html">Word Counter</a><a href="youtube-thumbnail.html">YouTube Thumbnail Downloader</a></nav></aside></div>
+<article class="article"><h2>How to use this tool</h2><ol><li>Choose a JPG, PNG, or WebP file. Use a copy of your original if you plan to compare visual quality afterward.</li><li>Choose WebP, JPG, or PNG. To reduce the dimensions as well, enter a maximum width in pixels. The tool keeps proportions and does not enlarge smaller images.</li><li>Set the quality for WebP or JPG and select Compress image. Review the resulting preview, dimensions, and file size. Lower the quality or maximum width gradually when you have a specific size target.</li><li>Download the result once the balance of size and detail suits your needs. Keep the original for future edits or prints.</li></ol><h2>Features and privacy</h2><p>Compression and resizing run in your browser. ToolVibe does not upload the source image. The browser redraws the pixels before export, which normally removes embedded metadata such as EXIF and location tags. The result is a single still image, so use a dedicated animation editor if you need to preserve moving frames.</p><p>The best format depends on the image. WebP is a useful starting point for website photos and graphics. JPG works well when your recipient needs a widely supported format and transparency is unnecessary. PNG preserves transparent areas and encodes the new pixels without applying the quality slider. Exporting to JPG fills transparent areas with white.</p><h2>Frequently asked questions</h2><details><summary>Why did my image get bigger?</summary><p>An already optimized image can be smaller than a fresh export. Try WebP or JPG with lower quality, reduce the maximum width, or keep the original if it remains the smallest acceptable version.</p></details><details><summary>Does 100% quality keep my original file intact?</summary><p>The browser re-encodes the image even at the highest quality setting. Keep the original if you need the original pixels, metadata, color information, or an exact byte-for-byte copy.</p></details><details><summary>How can I compare two compression settings?</summary><p>Download each result before trying the next setting. Compare the outputs at the size people will actually view them, paying attention to text edges and fine patterns.</p></details></article></main>
+<footer class="footer"><div class="shell footer-inner">
+<a class="brand" href="../index.html"><span class="brand-symbol"><svg class="icon" aria-hidden="true"><use href="#icon-bolt"/></svg></span>ToolVibe</a>
+<nav class="footer-nav" aria-label="Site information"><a href="../pages/about.html">About</a><a href="../pages/contact.html">Contact</a><a href="../pages/privacy-policy.html">Privacy Policy</a><a href="../pages/terms.html">Terms &amp; Conditions</a></nav>
+</div></footer>
+</body>
+</html>
