@@ -1,0 +1,112 @@
+.playground-toolbar,
+.playground-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.playground-toolbar { margin-bottom: 16px; }
+
+.playground-layout {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.playground-editor,
+.playground-preview,
+.playground-console { padding: 16px; }
+
+.playground-panel-head h2 { margin: 0; }
+.playground-panel-head { margin-bottom: 12px; }
+.playground-console { margin-top: 16px; }
+
+.playground-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.playground-editor .playground-tabs { margin-bottom: 10px; }
+
+.playground-tabs button {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg);
+  padding: 6px 11px;
+  font-size: .875rem;
+  font-weight: 700;
+}
+
+.playground-tabs button[aria-selected="true"],
+.playground-tabs button[aria-pressed="true"] {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bg);
+}
+
+.playground-editor textarea {
+  display: block;
+  width: 100%;
+  height: 29rem;
+  min-height: 16rem;
+  padding: 13px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  font: .875rem/1.65 ui-monospace, SFMono-Regular, Consolas, monospace;
+  resize: vertical;
+  tab-size: 2;
+}
+
+.playground-preview { display: flex; flex-direction: column; }
+.playground-stage {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  min-height: 29rem;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--soft);
+}
+
+.playground-stage iframe {
+  display: block;
+  width: 100%;
+  min-height: 28rem;
+  border: 0;
+  border-radius: 7px;
+  background: #fff;
+}
+
+.playground-stage[data-size="mobile"] iframe { max-width: 390px; }
+
+.playground-log {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-height: 16rem;
+  overflow: auto;
+}
+
+.playground-log li {
+  border-top: 1px solid var(--line);
+  padding: 8px 2px;
+  font: .875rem/1.6 ui-monospace, SFMono-Regular, Consolas, monospace;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.playground-log li[data-level="error"] { color: #aa2938; }
+:root[data-theme="dark"] .playground-log li[data-level="error"] { color: #ff9fab; }
+
+@media (max-width: 850px) {
+  .playground-layout { grid-template-columns: minmax(0, 1fr); }
+  .playground-editor textarea { height: 20rem; }
+  .playground-stage { min-height: 23rem; }
+  .playground-stage iframe { min-height: 22rem; }
+}

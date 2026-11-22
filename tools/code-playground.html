@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Run HTML, CSS, and JavaScript in a browser playground with desktop and mobile previews, a JavaScript console, and HTML download.">
+<meta name="theme-color" content="#10291f">
+<title>HTML, CSS &amp; JavaScript Code Playground | ToolVibe</title>
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<script src="../js/theme.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<script defer src="../js/main.js"></script>
+<link rel="stylesheet" href="../css/code-playground.css">
+<script defer src="../js/code-playground.js"></script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="icon-bolt" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 10-12h-7l1-8Z"/></symbol><symbol id="icon-qr" viewBox="0 0 24 24"><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="3" width="6" height="6" rx="1"/><rect x="3" y="15" width="6" height="6" rx="1"/><path d="M15 15h3v3h3m-6 3v-2m6-6v2m-8-4v2"/></symbol><symbol id="icon-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9" r="1.5"/><path d="m3 17 5-4 4 4 4-5 5 5"/></symbol><symbol id="icon-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4.5"/><path d="m11.2 11.8 8-8 2 2-2 2m-2 0 2 2-2 2"/></symbol><symbol id="icon-text" viewBox="0 0 24 24"><path d="M4 7V4h16v3M12 4v16m-4 0h8"/></symbol><symbol id="icon-video" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m10 9 5 3-5 3Z"/></symbol><symbol id="icon-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></symbol><symbol id="icon-moon" viewBox="0 0 24 24"><path d="M21 13A9 9 0 0 1 11 3a9 9 0 1 0 10 10Z"/></symbol><symbol id="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19m0-14-1.5 1.5m-11 11L5 19"/></symbol><symbol id="icon-shield" viewBox="0 0 24 24"><path d="M12 22s7-3.5 7-10V6l-7-3-7 3v6c0 6.5 7 10 7 10Z"/><path d="m9 12 2 2 4-4"/></symbol><symbol id="icon-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol><symbol id="icon-chevron" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol></svg>
+<a class="skip" href="#main">Skip to content</a>
+<header class="header"><nav class="nav shell" aria-label="Main navigation">
+  <a class="brand" href="../index.html"><span class="brand-symbol"><svg class="icon" aria-hidden="true"><use href="#icon-bolt"/></svg></span>ToolVibe</a>
+  <div class="nav-actions"><a href="../index.html#tools">All tools</a><a href="../pages/about.html">About</a><button class="theme" type="button" data-theme-button aria-label="Change color theme"><svg class="icon" aria-hidden="true"><use href="#icon-moon"/></svg></button></div>
+</nav></header>
+<main id="main" class="tool-main shell playground">
+<nav class="crumb" aria-label="Breadcrumb"><a href="../index.html#tools">All tools</a><svg class="icon" aria-hidden="true"><use href="#icon-chevron"/></svg><span>Developer Tools</span></nav>
+<div class="tool-title"><span class="tile password"><svg class="icon" aria-hidden="true"><use href="#icon-grid"/></svg></span><h1 class="title">Code Playground</h1></div>
+<p class="intro">Run HTML, CSS, and JavaScript, preview the result, and download it as an HTML file.</p>
+<div class="playground-toolbar">
+  <div class="actions">
+    <button class="btn" type="button" id="run-playground">Run code</button>
+    <button class="btn secondary" type="button" id="download-playground">Download HTML</button>
+  </div>
+  <p class="hint" role="status" id="playground-status">Press Ctrl+Enter or Command+Enter to run.</p>
+</div>
+<div class="playground-layout">
+  <section class="widget playground-editor" aria-labelledby="editor-heading">
+    <h2 id="editor-heading">Code editor</h2>
+    <div class="playground-tabs" role="tablist" aria-label="Languages">
+      <button type="button" id="html-tab" role="tab" aria-selected="true" aria-controls="html-panel">HTML</button>
+      <button type="button" id="css-tab" role="tab" aria-selected="false" aria-controls="css-panel" tabindex="-1">CSS</button>
+      <button type="button" id="js-tab" role="tab" aria-selected="false" aria-controls="js-panel" tabindex="-1">JavaScript</button>
+    </div>
+    <div id="html-panel" role="tabpanel" aria-labelledby="html-tab">
+      <textarea id="html-code" aria-label="HTML code" spellcheck="false" autocapitalize="off" autocomplete="off" wrap="off"></textarea>
+    </div>
+    <div id="css-panel" role="tabpanel" aria-labelledby="css-tab" hidden>
+      <textarea id="css-code" aria-label="CSS code" spellcheck="false" autocapitalize="off" autocomplete="off" wrap="off"></textarea>
+    </div>
+    <div id="js-panel" role="tabpanel" aria-labelledby="js-tab" hidden>
+      <textarea id="js-code" aria-label="JavaScript code" spellcheck="false" autocapitalize="off" autocomplete="off" wrap="off"></textarea>
+    </div>
+  </section>
+  <section class="widget playground-preview" aria-labelledby="preview-heading">
+    <div class="playground-panel-head">
+      <h2 id="preview-heading">Preview</h2>
+      <div class="playground-tabs" role="group" aria-label="Preview width">
+        <button type="button" data-preview-size="desktop" aria-pressed="true">Desktop</button>
+        <button type="button" data-preview-size="mobile" aria-pressed="false">Mobile</button>
+      </div>
+    </div>
+    <div class="playground-stage" id="playground-stage" data-size="desktop"></div>
+  </section>
+</div>
+<section class="widget playground-console" aria-labelledby="console-heading">
+  <div class="playground-panel-head">
+    <h2 id="console-heading">Console</h2>
+    <button class="btn secondary" type="button" id="clear-playground-console">Clear console</button>
+  </div>
+  <p class="hint" id="console-empty">Console messages and JavaScript errors will appear here.</p>
+  <ol id="playground-log" class="playground-log" aria-label="Console messages" tabindex="0" hidden></ol>
+</section>
+<article class="article">
+  <h2>How to use the playground</h2>
+  <ol>
+    <li>Paste a snippet or a complete HTML document in the HTML tab. A complete document can include its own inline styles and scripts.</li>
+    <li>Use the CSS and JavaScript tabs to add extra styles and code. CSS from its tab is added after the HTML document's head styles. JavaScript from its tab runs after the HTML content is parsed.</li>
+    <li>Select Run code. Use Mobile to check the layout in a viewport up to 390 pixels wide, and check the console for logs and errors.</li>
+    <li>Choose Download HTML to save your current edits as a single file.</li>
+  </ol>
+  <h2>Previewing an embed</h2>
+  <p>Paste your embed HTML and check the layout before adding it to a site builder. The preview blocks external scripts, stylesheets, images, and embedded frames. Use inline CSS, inline JavaScript, or data URL images for a standalone test. The destination site can apply its own rules to embedded code.</p>
+</article>
+</main>
+<footer class="footer"><div class="shell footer-inner">
+<a class="brand" href="../index.html"><span class="brand-symbol"><svg class="icon" aria-hidden="true"><use href="#icon-bolt"/></svg></span>ToolVibe</a>
+<nav class="footer-nav" aria-label="Site information"><a href="../pages/about.html">About</a><a href="../pages/contact.html">Contact</a><a href="../pages/privacy-policy.html">Privacy Policy</a><a href="../pages/terms.html">Terms &amp; Conditions</a></nav>
+</div></footer>
+</body>
+</html>
