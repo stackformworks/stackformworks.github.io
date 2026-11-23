@@ -1,29 +1,24 @@
-# ToolVibe
+# ToolVibe Document Converter
 
-ToolVibe is a static directory of five browser utilities. The QR generator, image compressor, strong password generator, and word counter process their inputs locally. The thumbnail tool loads public thumbnail images from YouTube.
+Run the converter on your own computer. It binds to 127.0.0.1 and takes no API keys. Files are processed in per-request temporary directories. Use documents you trust.
 
-## Run locally
+## Start it
 
-Serve the contents of `dist/` over a local HTTP server:
+1. Install Python 3.10 or newer, LibreOffice, and Poppler. Make sure `pdftoppm` is on your PATH. On Linux, install LibreOffice Writer and Calc. If LibreOffice is in a nonstandard location, set the `TOOLVIBE_SOFFICE` environment variable to the full path of its executable.
+2. From this directory run `python -m pip install -r requirements.txt`.
+3. Run `python convert.py` and open [http://127.0.0.1:8787](http://127.0.0.1:8787/).
 
-```sh
-python3 -m http.server 8000 --directory dist
-```
+Install your documents' original fonts before exporting. Include Sinhala fonts such as Noto Sans Sinhala if your documents use them. Review PDF previews, especially if the source used Word-specific fonts, layout features, or Excel print settings.
 
-Open `http://localhost:8000/`. A local server or an HTTPS host offers the best browser support for clipboard actions.
+## What is supported
 
-## Deploy on GitHub Pages
+| Conversion | Output |
+|---|---|
+| DOCX to PDF | LibreOffice Writer export with PDF preview |
+| XLSX to PDF | LibreOffice Calc export with PDF preview |
+| PDF to DOCX | One rendered page image per Word page. Text within the page images is not editable. |
+| PDF to XLSX | One worksheet per detected bordered text table. Values are stored as strings to preserve IDs and leading zeros. Scans and borderless tables require another engine. |
 
-Place the **contents** of `dist/` at the repository root. The portable source ZIP already uses this layout. This build uses relative paths and works under a GitHub Pages repository subpath. Follow the blueprint to choose your publishing branch and root folder.
+Inputs are limited to 25 MB. PDF inputs must have 1–50 pages and cannot require a password. Macro-enabled documents and Office documents with externally linked resources are outside this tool's scope.
 
-Set a monitored inbox in `js/site-config.js` to enable the contact page’s email action. With the address unset, visitors can prepare and copy feedback. Once the production URL is chosen, use that URL for the public sitemap and any canonical URLs. The site currently includes no advertising code.
-
-## Source layout
-
-ToolVibe is a free browser-based toolkit.
-
-- `index.html` contains the searchable tool directory.
-- `tools/` has five standalone pages with individually written guides and FAQs.
-- `pages/` has About, Contact, Privacy Policy, and Terms.
-- `css/style.css` supplies shared styling and responsive layouts.
-- `js/` contains browser behavior, site configuration, and the bundled MIT-licensed QR encoder.
+This local application needs a running Python process, LibreOffice and Poppler. GitHub Pages serves the separate PDF Editor, which runs in the browser. Before offering these conversions to public visitors, use a separately hosted conversion service with isolated jobs, resource limits and restricted egress.
