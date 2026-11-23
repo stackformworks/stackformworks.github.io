@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Add text, highlights, and a drawn signature to a PDF. Rotate, reorder, and delete pages in your browser.">
+<meta name="theme-color" content="#10291f">
+<title>PDF Editor | ToolVibe</title>
+<link rel="canonical" href="https://stackformworks.github.io/tools/pdf-editor.html">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<script src="../js/theme.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<script defer src="../js/main.js"></script>
+<link rel="stylesheet" href="../css/pdf-editor.css">
+<script defer src="../assets/pdf-editor/pdf-lib.min.js"></script>
+<script type="module" src="../js/pdf-editor.mjs"></script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="icon-bolt" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 10-12h-7l1-8Z"/></symbol><symbol id="icon-qr" viewBox="0 0 24 24"><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="3" width="6" height="6" rx="1"/><rect x="3" y="15" width="6" height="6" rx="1"/><path d="M15 15h3v3h3m-6 3v-2m6-6v2m-8-4v2"/></symbol><symbol id="icon-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9" r="1.5"/><path d="m3 17 5-4 4 4 4-5 5 5"/></symbol><symbol id="icon-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4.5"/><path d="m11.2 11.8 8-8 2 2-2 2m-2 0 2 2-2 2"/></symbol><symbol id="icon-text" viewBox="0 0 24 24"><path d="M4 7V4h16v3M12 4v16m-4 0h8"/></symbol><symbol id="icon-video" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m10 9 5 3-5 3Z"/></symbol><symbol id="icon-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></symbol><symbol id="icon-moon" viewBox="0 0 24 24"><path d="M21 13A9 9 0 0 1 11 3a9 9 0 1 0 10 10Z"/></symbol><symbol id="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19m0-14-1.5 1.5m-11 11L5 19"/></symbol><symbol id="icon-shield" viewBox="0 0 24 24"><path d="M12 22s7-3.5 7-10V6l-7-3-7 3v6c0 6.5 7 10 7 10Z"/><path d="m9 12 2 2 4-4"/></symbol><symbol id="icon-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol><symbol id="icon-chevron" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol></svg>
+<a class="skip" href="#main">Skip to content</a>
+<header class="header"><nav class="nav shell" aria-label="Main navigation">
+  <a class="brand" href="../index.html"><span class="brand-symbol"><svg class="icon" aria-hidden="true"><use href="#icon-bolt"/></svg></span>ToolVibe</a>
+  <div class="nav-actions"><a href="../index.html#tools">All tools</a><a href="../pages/about.html">About</a><button class="theme" type="button" data-theme-button aria-label="Change color theme"><svg class="icon" aria-hidden="true"><use href="#icon-moon"/></svg></button></div>
+</nav></header>
+<main id="main" class="tool-main shell">
+<nav class="crumb" aria-label="Breadcrumb"><a href="../index.html#tools">All tools</a> <span>Document Tools</span></nav>
+<h1 class="title">PDF Editor</h1><p class="intro">Add text, highlights, and a drawn signature to a PDF. Rotate, reorder, and delete pages in your browser.</p>
+<section class="widget pdf-workspace" aria-label="PDF editing workspace">
+  <div class="stack">
+    <label class="field">Choose a PDF <input id="pdf-file" type="file" accept=".pdf,application/pdf"><small>Up to 30 MB. Your file stays in your browser.</small></label>
+    <p class="status" id="pdf-status" role="status"></p>
+  </div>
+  <div id="pdf-controls" class="stack" hidden>
+    <div class="actions" aria-label="Page controls">
+      <button type="button" class="btn secondary" id="pdf-prev">Previous page</button>
+      <output id="pdf-page-number" aria-live="polite"></output>
+      <button type="button" class="btn secondary" id="pdf-next">Next page</button>
+      <button type="button" class="btn secondary" id="pdf-rotate">Rotate right</button>
+      <button type="button" class="btn secondary" id="pdf-earlier">Move page earlier</button>
+      <button type="button" class="btn secondary" id="pdf-later">Move page later</button>
+      <button type="button" class="btn secondary" id="pdf-delete">Delete page</button>
+    </div>
+    <div class="actions">
+      <label class="field">Annotation
+        <select id="pdf-mode"><option value="text">Add text</option><option value="ink">Draw or sign</option><option value="highlight">Highlight area</option></select>
+      </label>
+      <label class="field" id="pdf-text-field">Text to add <input id="pdf-text" type="text" maxlength="160"></label>
+      <button type="button" class="btn secondary" id="pdf-undo" disabled>Undo</button>
+      <button type="button" class="btn" id="pdf-save">Download edited PDF</button>
+    </div>
+    <p class="hint" id="pdf-help">Type your text, then click where its baseline should appear. With a keyboard, focus the PDF preview and press Enter to place it at the center.</p>
+    <div class="pdf-canvas-area">
+      <div class="pdf-sheet">
+        <canvas id="pdf-page" aria-hidden="true"></canvas>
+        <canvas id="pdf-overlay" tabindex="0" role="img" aria-label="PDF annotation surface" aria-describedby="pdf-help"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+<article class="article"><h2>How to edit a PDF</h2>
+<p>Open a PDF and choose a page. Add text, drag to draw a signature or highlight an area, or use the page controls to rotate, move, or delete a page. Undo restores the last edit. Download saves a new copy. Your original page content remains text or graphics in the resulting PDF.</p>
+<h2>What this editor supports</h2>
+<p>Added text is rendered as an overlay to support scripts such as Sinhala. The editor adds marks over existing content. It does not change the original text or permanently redact it. Downloading edits can invalidate digital signatures. Keep the original for signed or interactive documents.</p></article>
+</main>
+<footer class="footer"><div class="shell footer-inner">
+<a class="brand" href="../index.html"><span class="brand-symbol"><svg class="icon" aria-hidden="true"><use href="#icon-bolt"/></svg></span>ToolVibe</a>
+<nav class="footer-nav" aria-label="Site information"><a href="../pages/about.html">About</a><a href="../pages/contact.html">Contact</a><a href="../pages/privacy-policy.html">Privacy Policy</a><a href="../pages/terms.html">Terms &amp; Conditions</a></nav>
+</div></footer>
+</body>
+</html>

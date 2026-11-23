@@ -1,0 +1,9 @@
+.pdf-workspace > .stack + .stack { margin-top: 1rem; }
+.pdf-workspace .actions output { font-size: .9rem; }
+.pdf-workspace .actions .field { min-width: 10rem; }
+.pdf-workspace .actions .field input { width: min(16rem, 100%); }
+.pdf-canvas-area { padding: .75rem; background: var(--soft); border-radius: 10px; }
+.pdf-sheet { position: relative; width: min(100%, 52rem); margin: auto; }
+.pdf-sheet canvas { display: block; width: 100%; }
+#pdf-page { background: white; border-radius: 4px; }
+#pdf-overlay { position: absolute; inset: 0; height: 100%; touch-action: none; cursor: crosshair; }
