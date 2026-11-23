@@ -1,4 +1,5 @@
 import { GlobalWorkerOptions, getDocument } from '../assets/pdf-editor/pdf.min.mjs';
+import { applyTextReplacements, findEditableText } from './pdf-text-replacement.mjs';
 
 const assets = new URL('../assets/pdf-editor/', import.meta.url);
 GlobalWorkerOptions.workerSrc = new URL('pdf.worker.min.mjs', assets).href;
@@ -41,6 +42,9 @@ const overlay = byId('pdf-overlay');
 const mode = byId('pdf-mode');
 const textInput = byId('pdf-text');
 const status = byId('pdf-status');
+const originalSelect = byId('pdf-original');
+const replacementInput = byId('pdf-replacement');
+const replaceButton = byId('pdf-replace');
 const buttons = Object.fromEntries(
   ['prev', 'next', 'rotate', 'earlier', 'later', 'delete', 'undo', 'save'].map((id) => [id, byId('pdf-' + id)])
 );
@@ -55,6 +59,9 @@ let renderVersion = 0;
 let fileVersion = 0;
 let busy = false;
 let drawing;
+let editableRuns = [];
+let selectionVersion = 0;
+const textRunsByPage = new Map();
 
 function announce(text, error = false) {
   status.textContent = text;
@@ -69,6 +76,8 @@ function updateButtons() {
   buttons.delete.disabled = disabled || pages.length < 2;
   buttons.rotate.disabled = buttons.save.disabled = disabled;
   buttons.undo.disabled = disabled || !history.length;
+  originalSelect.disabled = disabled || !editableRuns.length;
+  replacementInput.disabled = replaceButton.disabled = originalSelect.disabled || !originalSelect.value;
   byId('pdf-page-number').value = 'Page ' + (position + 1) + ' of ' + pages.length;
 }
 
@@ -112,22 +121,60 @@ function updateOverlay() {
   if (!viewport) return;
   for (const note of state.pages[state.position].annotations) drawAnnotation(context, viewport, note);
   if (drawing) drawAnnotation(context, viewport, drawing.note);
+  const selected = mode.value === 'replace' && editableRuns.find((entry) => String(entry.id) === originalSelect.value);
+  if (selected) {
+    const corners = textCorners(selected.textItem).map(([x, y]) => viewport.convertToViewportPoint(x, y));
+    context.strokeStyle = '#0d6b50';
+    context.lineWidth = 2;
+    context.beginPath();
+    context.moveTo(...corners[0]);
+    for (const corner of corners.slice(1)) context.lineTo(...corner);
+    context.closePath();
+    context.stroke();
+  }
 }
 
-async function showPage() {
+function openViewer(bytes) {
+  return getDocument({
+    data: bytes,
+    isEvalSupported: false,
+    enableXfa: false,
+    BinaryDataFactory: PdfAssetFactory,
+    useWorkerFetch: false,
+    cMapPacked: true,
+    standardFontDataUrl: new URL('standard_fonts/', assets).href,
+    wasmUrl: new URL('wasm/', assets).href,
+    iccUrl: new URL('iccs/', assets).href
+  });
+}
+
+async function showPage(selectedId) {
   const revision = ++renderVersion;
   viewport = undefined;
   drawing = undefined;
+  editableRuns = [];
+  ++selectionVersion;
   const previous = renderTask;
   previous?.cancel();
   updateButtons();
   const item = state.pages[state.position];
   if (!item) return;
+  let editedPreview;
 
   try {
     if (previous) await previous.promise.catch(() => {});
     if (revision !== renderVersion) return;
-    const page = await viewer.getPage(item.number);
+    let pageViewer = viewer;
+    if (item.replacements.length) {
+      const preview = await PDFLib.PDFDocument.load(source.bytes, { updateMetadata: false });
+      applyTextReplacements(preview, [item]);
+      const bytes = await preview.save({ updateFieldAppearances: false });
+      if (revision !== renderVersion) return;
+      editedPreview = openViewer(bytes);
+      pageViewer = await editedPreview.promise;
+    }
+    if (revision !== renderVersion) return;
+    const page = await pageViewer.getPage(item.number);
     if (revision !== renderVersion) return;
     const original = page.getViewport({ scale: 1, rotation: page.rotate + item.turn });
     const size = Math.min(1.65, 1500 / original.width, 1900 / original.height);
@@ -140,9 +187,11 @@ async function showPage() {
     if (revision !== renderVersion) return;
     viewport = view;
     updateOverlay();
+    if (mode.value === 'replace') await syncTextPicker(selectedId);
   } catch {
     if (revision === renderVersion) announce('This page could not be displayed.', true);
   } finally {
+    editedPreview?.destroy().catch(() => {});
     if (revision === renderVersion) {
       renderTask = undefined;
       updateButtons();
@@ -158,6 +207,7 @@ file.addEventListener('change', async () => {
   loadTask = undefined;
   viewer = viewport = source = undefined;
   history = [];
+  textRunsByPage.clear();
   state = { pages: [], position: 0 };
   controls.hidden = true;
   announce();
@@ -173,33 +223,166 @@ file.addEventListener('change', async () => {
     const bytes = new Uint8Array(await selected.arrayBuffer());
     if (revision !== fileVersion) return;
     // Validate editability before showing a preview or accepting annotations.
-    await PDFLib.PDFDocument.load(bytes, { updateMetadata: false });
+    const document = await PDFLib.PDFDocument.load(bytes, { updateMetadata: false });
     if (revision !== fileVersion) return;
-    loadTask = getDocument({
-      data: bytes.slice(),
-      isEvalSupported: false,
-      enableXfa: false,
-      BinaryDataFactory: PdfAssetFactory,
-      useWorkerFetch: false,
-      cMapPacked: true,
-      standardFontDataUrl: new URL('standard_fonts/', assets).href,
-      wasmUrl: new URL('wasm/', assets).href,
-      iccUrl: new URL('iccs/', assets).href
-    });
+    loadTask = openViewer(bytes.slice());
     const opened = await loadTask.promise;
     if (revision !== fileVersion) return;
     if (opened.numPages > 200 || opened.numPages < 1) {
       announce('Choose a PDF with 1 to 200 pages.', true);
       return;
     }
-    source = { bytes, name: selected.name.replace(/\.pdf$/i, '') };
+    source = { bytes, document, name: selected.name.replace(/\.pdf$/i, '') };
     viewer = opened;
-    state = { position: 0, pages: Array.from({ length: opened.numPages }, (_, i) => ({ number: i + 1, turn: 0, annotations: [] })) };
+    state = { position: 0, pages: Array.from({ length: opened.numPages }, (_, i) => ({ number: i + 1, turn: 0, annotations: [], replacements: [] })) };
     controls.hidden = false;
     announce('PDF opened.');
     await showPage();
   } catch {
     if (revision === fileVersion) announce('This PDF could not be opened for editing. Check whether it is encrypted or damaged.', true);
+  }
+});
+
+async function readEditableRuns(item) {
+  const candidates = findEditableText(source.document, source.document.getPage(item.number - 1));
+  if (!candidates.length) return [];
+  const page = await viewer.getPage(item.number);
+  const { items } = await page.getTextContent({ disableNormalization: true });
+  const displayed = new Map();
+  const counts = new Map();
+  for (const candidate of candidates) {
+    const text = candidate.original.trim();
+    counts.set(text, (counts.get(text) ?? 0) + 1);
+  }
+  for (const textItem of items) {
+    if (!textItem.str?.trim()) continue;
+    const text = textItem.str.trim();
+    displayed.set(text, displayed.has(text) ? null : textItem);
+  }
+  return candidates.flatMap(({ id, original }) => {
+    const text = original.trim();
+    const textItem = displayed.get(text);
+    return textItem && counts.get(text) === 1 ? [{ id, original, textItem }] : [];
+  });
+}
+
+async function syncTextPicker(selectedId) {
+  const revision = ++selectionVersion;
+  const item = state.pages[state.position];
+  if (!item || !viewport) return;
+  byId('pdf-help').textContent = 'Finding editable text on this page…';
+  originalSelect.replaceChildren(new Option('Select text', ''));
+  replacementInput.value = '';
+  try {
+    if (!textRunsByPage.has(item.number)) textRunsByPage.set(item.number, readEditableRuns(item));
+    const runs = await textRunsByPage.get(item.number);
+    if (revision !== selectionVersion || mode.value !== 'replace') return;
+    editableRuns = runs;
+    for (const run of runs) {
+      const text = item.replacements.find(({ id }) => id === run.id)?.value ?? run.original;
+      originalSelect.add(new Option(text.length > 85 ? text.slice(0, 82) + '…' : text || '(empty text)', String(run.id)));
+    }
+    byId('pdf-help').textContent = runs.length
+      ? 'Click text on the preview or pick it from the list. Enter your replacement and click Apply replacement.'
+      : 'No supported text was found on this page. This can happen with scans, split or repeated text, or embedded fonts.';
+    if (selectedId !== undefined) originalSelect.value = String(selectedId);
+    showSelectedText();
+  } catch {
+    if (revision === selectionVersion && mode.value === 'replace') {
+      byId('pdf-help').textContent = 'Could not read existing text on this page.';
+    }
+  }
+}
+
+function textCorners({ transform, width, height }, expand = 0) {
+  const [a, b, c, d, x, y] = transform;
+  const along = Math.hypot(a, b) || 1;
+  const up = Math.hypot(c, d) || 1;
+  const point = (u, v) => [x + a / along * u + c / up * v, y + b / along * u + d / up * v];
+  return [
+    point(-expand, -height * .22 - expand), point(width + expand, -height * .22 - expand),
+    point(width + expand, height * .83 + expand), point(-expand, height * .83 + expand)
+  ];
+}
+
+function textAtPoint(point) {
+  const [x, y] = viewport.convertToPdfPoint(...point);
+  return editableRuns.find(({ textItem }) => {
+    const corners = textCorners(textItem, 2 / viewport.scale);
+    const sides = corners.map(([ax, ay], i) => {
+      const [bx, by] = corners[(i + 1) % corners.length];
+      return (bx - ax) * (y - ay) - (by - ay) * (x - ax);
+    });
+    return sides.every((side) => side >= 0) || sides.every((side) => side <= 0);
+  });
+}
+
+function showSelectedText() {
+  const run = editableRuns.find(({ id }) => String(id) === originalSelect.value);
+  const item = state.pages[state.position];
+  replacementInput.value = run ? item.replacements.find(({ id }) => id === run.id)?.value ?? run.original.trim() : '';
+  updateOverlay();
+  updateButtons();
+}
+
+originalSelect.addEventListener('change', showSelectedText);
+
+async function replaceSelectedText() {
+  if (busy || !viewport) return;
+  const run = editableRuns.find(({ id }) => String(id) === originalSelect.value);
+  if (!run) return;
+  const position = state.position;
+  const item = state.pages[position];
+  const previous = item.replacements.find(({ id }) => id === run.id)?.value ?? run.original;
+  const value = replacementInput.value.trim();
+  if (value === previous.trim()) return;
+  if (!value) {
+    announce('Enter the replacement text.', true);
+    replacementInput.focus();
+    return;
+  }
+  // Keep edge spaces present in the PDF run.
+  const padded = run.original.match(/^\s*/)[0] + value + run.original.match(/\s*$/)[0];
+  const replacements = item.replacements.filter(({ id }) => id !== run.id);
+  if (padded !== run.original) replacements.push({ id: run.id, original: run.original, value: padded });
+  const updated = { ...item, replacements };
+  busy = true;
+  file.disabled = true;
+  mode.disabled = true;
+  updateButtons();
+  let verification;
+  try {
+    const check = await PDFLib.PDFDocument.load(source.bytes, { updateMetadata: false });
+    applyTextReplacements(check, [updated]);
+    const bytes = await check.save({ updateFieldAppearances: false });
+    verification = openViewer(bytes);
+    const checked = await verification.promise;
+    const page = await checked.getPage(item.number);
+    const { items } = await page.getTextContent({ disableNormalization: true });
+    if (!items.some(({ str }) => str?.trim() === value)) {
+      throw new Error('This text run could not be replaced as selectable text.');
+    }
+    checkpoint();
+    state.pages[position] = updated;
+    announce('Text replaced. Download the edited PDF to save a copy.');
+  } catch (error) {
+    announce(error.message || 'This text could not be replaced.', true);
+    return;
+  } finally {
+    verification?.destroy().catch(() => {});
+    busy = false;
+    file.disabled = false;
+    mode.disabled = false;
+    updateButtons();
+  }
+  await showPage(run.id);
+}
+
+replaceButton.addEventListener('click', replaceSelectedText);
+replacementInput.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    replaceSelectedText();
   }
 });
 
@@ -274,7 +457,14 @@ function placeText(point) {
 }
 
 mode.addEventListener('change', () => {
+  ++selectionVersion;
   byId('pdf-text-field').hidden = mode.value !== 'text';
+  byId('pdf-replace-fields').hidden = mode.value !== 'replace';
+  if (mode.value === 'replace') {
+    syncTextPicker();
+    return;
+  }
+  updateOverlay();
   byId('pdf-help').textContent = mode.value === 'text'
     ? 'Type your text, then click where its baseline should appear. With a keyboard, focus the PDF preview and press Enter to place it at the center.'
     : 'Drag on the preview to ' + (mode.value === 'ink' ? 'draw on this page.' : 'highlight a rectangular area.');
@@ -289,6 +479,16 @@ overlay.addEventListener('pointerdown', (event) => {
   if (!viewport || busy || drawing || !event.isPrimary || event.button !== 0) return;
   const point = pointerPoint(event);
   if (mode.value === 'text') return placeText(point);
+  if (mode.value === 'replace') {
+    const run = textAtPoint(point);
+    if (run) {
+      originalSelect.value = String(run.id);
+      showSelectedText();
+      replacementInput.focus();
+      replacementInput.select();
+    } else announce('Pick editable text in the preview or from the list.', true);
+    return;
+  }
   drawing = { id: event.pointerId, start: point, note: createNote(point) };
   overlay.setPointerCapture(event.pointerId);
 });
@@ -346,6 +546,7 @@ buttons.save.addEventListener('click', async () => {
   try {
     const output = await PDFLib.PDFDocument.load(source.bytes, { updateMetadata: false });
     const originals = output.getPages();
+    applyTextReplacements(output, state.pages);
     // Preserve the original page tree unless the user changes order or deletes pages.
     const rearranged = state.pages.length !== originals.length || state.pages.some((item, i) => item.number !== i + 1);
     if (rearranged) {

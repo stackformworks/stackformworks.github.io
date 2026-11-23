@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Add text, highlights, and a drawn signature to a PDF. Rotate, reorder, and delete pages in your browser.">
+<meta name="description" content="Edit existing PDF text, add highlights or a signature, and organize pages in your browser.">
 <meta name="theme-color" content="#10291f">
 <title>PDF Editor | ToolVibe</title>
 <link rel="canonical" href="https://stackformworks.github.io/tools/pdf-editor.html">
@@ -24,7 +24,7 @@
 </nav></header>
 <main id="main" class="tool-main shell">
 <nav class="crumb" aria-label="Breadcrumb"><a href="../index.html#tools">All tools</a> <span>Document Tools</span></nav>
-<h1 class="title">PDF Editor</h1><p class="intro">Add text, highlights, and a drawn signature to a PDF. Rotate, reorder, and delete pages in your browser.</p>
+<h1 class="title">PDF Editor</h1><p class="intro">Edit existing PDF text, add highlights or a signature, and organize pages in your browser.</p>
 <section class="widget pdf-workspace" aria-label="PDF editing workspace">
   <div class="stack">
     <label class="field">Choose a PDF <input id="pdf-file" type="file" accept=".pdf,application/pdf"><small>Up to 30 MB. Your file stays in your browser.</small></label>
@@ -41,26 +41,31 @@
       <button type="button" class="btn secondary" id="pdf-delete">Delete page</button>
     </div>
     <div class="actions">
-      <label class="field">Annotation
-        <select id="pdf-mode"><option value="text">Add text</option><option value="ink">Draw or sign</option><option value="highlight">Highlight area</option></select>
+      <label class="field">Editing tool
+        <select id="pdf-mode"><option value="text">Add text</option><option value="replace">Edit existing text</option><option value="ink">Draw or sign</option><option value="highlight">Highlight area</option></select>
       </label>
       <label class="field" id="pdf-text-field">Text to add <input id="pdf-text" type="text" maxlength="160"></label>
       <button type="button" class="btn secondary" id="pdf-undo" disabled>Undo</button>
       <button type="button" class="btn" id="pdf-save">Download edited PDF</button>
     </div>
+    <div class="actions" id="pdf-replace-fields" hidden>
+      <label class="field">Text on this page <select id="pdf-original"></select></label>
+      <label class="field">Replacement text <input id="pdf-replacement" type="text" maxlength="250"></label>
+      <button type="button" class="btn secondary" id="pdf-replace" disabled>Apply replacement</button>
+    </div>
     <p class="hint" id="pdf-help">Type your text, then click where its baseline should appear. With a keyboard, focus the PDF preview and press Enter to place it at the center.</p>
     <div class="pdf-canvas-area">
       <div class="pdf-sheet">
         <canvas id="pdf-page" aria-hidden="true"></canvas>
-        <canvas id="pdf-overlay" tabindex="0" role="img" aria-label="PDF annotation surface" aria-describedby="pdf-help"></canvas>
+        <canvas id="pdf-overlay" tabindex="0" role="img" aria-label="PDF page preview" aria-describedby="pdf-help"></canvas>
       </div>
     </div>
   </div>
 </section>
 <article class="article"><h2>How to edit a PDF</h2>
-<p>Open a PDF and choose a page. Add text, drag to draw a signature or highlight an area, or use the page controls to rotate, move, or delete a page. Undo restores the last edit. Download saves a new copy. Your original page content remains text or graphics in the resulting PDF.</p>
+<p>Open a PDF and choose a page. Choose Edit existing text, select a text run, enter the new text, and apply the replacement. You can also add text, highlights, or a signature and organize pages. Undo restores the last edit. Download saves a new copy.</p>
 <h2>What this editor supports</h2>
-<p>Added text is rendered as an overlay to support scripts such as Sinhala. The editor adds marks over existing content. It does not change the original text or permanently redact it. Downloading edits can invalidate digital signatures. Keep the original for signed or interactive documents.</p></article>
+<p>Existing text can be replaced in supported text-based PDFs. Replacement uses the original font, stays selectable, and keeps the surrounding layout. Scanned pages, some embedded fonts, and text split across multiple runs may have no editable text. The Add text tool also supports Sinhala. Downloading edits can invalidate digital signatures.</p></article>
 </main>
 <footer class="footer"><div class="shell footer-inner">
 <a class="brand" href="../index.html"><span class="brand-symbol"><svg class="icon" aria-hidden="true"><use href="#icon-bolt"/></svg></span>ToolVibe</a>

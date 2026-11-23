@@ -7,3 +7,5 @@
 .pdf-sheet canvas { display: block; width: 100%; }
 #pdf-page { background: white; border-radius: 4px; }
 #pdf-overlay { position: absolute; inset: 0; height: 100%; touch-action: none; cursor: crosshair; }
+#pdf-replace-fields { align-items: end; }
+#pdf-replace-fields .field { min-width: 0; max-width: 28rem; flex: 1 1 14rem; }
