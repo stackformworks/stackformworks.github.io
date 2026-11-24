@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Combine multiple PDF files in the order you choose and download a single PDF. Merge files free in your browser without uploading them.">
+<meta name="theme-color" content="#10291f">
+<title>Merge PDF Online | Combine PDF Files | ToolVibe</title>
+<link rel="canonical" href="https://stackformworks.github.io/tools/merge-pdf.html">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<script src="../js/theme.js"></script>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/merge-pdf.css">
+<script defer src="../js/main.js"></script>
+<script defer src="../assets/pdf-editor/pdf-lib.min.js"></script>
+<script defer src="../js/merge-pdf.js"></script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="icon-bolt" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 10-12h-7l1-8Z"/></symbol>
+  <symbol id="icon-moon" viewBox="0 0 24 24"><path d="M20 15a8 8 0 0 1-11-11 8.5 8.5 0 1 0 11 11Z"/></symbol>
+  <symbol id="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19m0-14-1.5 1.5m-11 11L5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to content</a>
+<header class="header"><nav class="nav shell" aria-label="Main navigation">
+  <a class="brand" href="../index.html"><span class="brand-symbol"><svg class="icon" aria-hidden="true"><use href="#icon-bolt"/></svg></span>ToolVibe</a>
+  <div class="nav-actions"><a href="../index.html#tools">All tools</a><a href="../pages/about.html">About</a><button class="theme" type="button" data-theme-button aria-label="Change color theme"><svg class="icon" aria-hidden="true"><use href="#icon-moon"/></svg></button></div>
+</nav></header>
+<main id="main" class="tool-main shell">
+  <nav class="crumb" aria-label="Breadcrumb"><a href="../index.html#tools">All tools</a> <span>Document Tools</span></nav>
+  <h1 class="title">Merge PDF</h1>
+  <p class="intro">Combine several PDFs into one file. Your documents stay in your browser.</p>
+  <section class="widget stack" aria-label="PDF merger">
+    <label class="field">Add PDF files
+      <input id="merge-files" type="file" accept=".pdf,application/pdf" multiple aria-describedby="merge-limits">
+      <small id="merge-limits">Choose 2 to 20 PDFs, up to 50 MB and 500 pages in total.</small>
+    </label>
+    <section aria-labelledby="merge-order" hidden>
+      <h2 id="merge-order">File order</h2>
+      <ol class="merge-list" id="merge-list"></ol>
+    </section>
+    <div class="actions">
+      <button class="btn" type="button" id="merge-run" disabled>Merge PDFs</button>
+      <button class="btn secondary" type="button" id="merge-clear" disabled>Clear files</button>
+      <a class="btn secondary" id="merge-download" download="merged.pdf" hidden>Download merged PDF</a>
+    </div>
+    <p class="status" id="merge-status" role="status"></p>
+    <noscript><p>Enable JavaScript to merge PDF files in your browser.</p></noscript>
+  </section>
+  <article class="article">
+    <h2>How to combine PDF files</h2>
+    <ol>
+      <li>Select two or more PDFs. You can add files in more than one batch.</li>
+      <li>Use Move up and Move down to arrange the files. Each file's pages stay in their original order.</li>
+      <li>Choose Merge PDFs, then download the combined file.</li>
+    </ol>
+    <h2>What the merged PDF keeps</h2>
+    <p>The merger copies pages in their original sizes. For example, you can put a cover sheet first, a report second, and the appendices last. Scanned PDFs work as page images. Password-protected files must be unlocked first. Interactive form fields, bookmarks, and digital signatures may be lost.</p>
+    <p>To rotate, remove, or rearrange individual pages, open the result in the <a href="pdf-editor.html">PDF Editor</a>.</p>
+  </article>
+</main>
+<footer class="footer"><div class="shell footer-inner">
+  <a class="brand" href="../index.html"><span class="brand-symbol"><svg class="icon" aria-hidden="true"><use href="#icon-bolt"/></svg></span>ToolVibe</a>
+  <nav class="footer-nav" aria-label="Site information"><a href="../pages/about.html">About</a><a href="../pages/contact.html">Contact</a><a href="../pages/privacy-policy.html">Privacy Policy</a><a href="../pages/terms.html">Terms &amp; Conditions</a></nav>
+</div></footer>
+</body>
+</html>

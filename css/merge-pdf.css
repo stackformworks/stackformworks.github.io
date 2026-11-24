@@ -1,0 +1,14 @@
+.merge-list {
+  display: grid;
+  gap: 8px;
+  padding-inline-start: 1.75rem;
+}
+
+.merge-list li {
+  padding: 10px 12px;
+}
+
+.merge-file-name {
+  margin-bottom: 8px;
+  overflow-wrap: anywhere;
+}
